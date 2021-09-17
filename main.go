@@ -288,7 +288,7 @@ func RdColumnsAndPk(leastCol int) ([]ColumnType, []ColumnType) {
 }
 
 func rdColumns(least int) []ColumnType {
-	colCnt = util.RdRange(columnLeast, columnMost)
+	colCnt := util.RdRange(columnLeast, columnMost)
 	if colCnt < least {
 		colCnt = least
 	}
