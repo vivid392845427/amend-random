@@ -14,6 +14,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/google/martian/log"
+
 	"github.com/docker/go-units"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/juju/errors"
@@ -308,6 +310,10 @@ func MustExec(db *sql.DB, dsn string, sqlStmt string, retry bool, dupError strin
 	for i := 0; i < maxtry; i++ {
 		_, err = db.Exec(sqlStmt)
 		if err == nil {
+			return
+		}
+		if strings.Contains(err.Error(), "Unknown system variable") {
+			log.Errorf(err.Error())
 			return
 		}
 		if strings.Contains(err.Error(), "connection refused") && i < maxtry-1 {
